@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Creating Discord w/Bot Accounts</title>
+
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style>
+      .selectedGuild {
+        background-color: red !important;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="" role="navigation">
+      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Creating Discord w/Bot Accounts</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#consolemodal">By EndenDragon</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+          <li><a href="#consolemodal">By EndenDragon</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col s12 m11 l9">
+        <p class="flow-text">Start by entering a Discord bot token.</p>
+        <nav>
+          <div class="nav-wrapper z-depth-2">
+            <form id="tokenform" onsubmit="return false;">
+              <div class="input-field">
+                <input id="tokeninput" type="search" class="search" placeholder="Enter bot token and press enter to validate" autocomplete="off">
+              </div>
+            </form>
+          </div>
+        </nav>
+        <div id="progressbar" class="progress" style="display:none;">
+            <div class="indeterminate"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row"><br>
+      <p class="flow-text">Here is a little info about the bot:</p>
+      <div class="col s4">
+        <div class="card-panel teal">
+          <span class="white-text">
+            <p>Token: <span id="bottoken">null</span></p>
+            <p>Id: <span id="botid">null</span></p>
+            <p>Username: <span id="botusername">null</span></p>
+            <p>Discriminator: <span id="botdiscrim">null</span></p>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <br>
+        <p class="flow-text">Next, select your guild.</p>
+          <span id="guildcards">
+            <!-- Insert guild cards -->
+<!--
+            <div class="col s12 m6 l3">
+              <div class="card hoverable">
+                <div class="card-content">
+                  <span class="card-title">Guild name here</span>
+                  <span>
+                    <i class="fa fa-user" aria-hidden="true"></i> 10<br>
+                    <i class="fa fa-star" aria-hidden="true"></i> 2146958463
+                  </span>
+                </div>
+                <div class="card-action">
+                  <a class="waves-effect waves-light btn">Select</a>
+                </div>
+              </div>
+            </div>
+-->
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <br>
+        <p class="flow-text">Finally, deploy your actions against the guild!</p>
+        <!-- Insert action cards -->
+
+        <div class="col s12 m6 l3">
+          <div class="card hoverable">
+            <div class="card-content">
+              <span class="card-title">Invites</span>
+              <p>View all the invites of the selected guild.</p>
+            </div>
+            <div class="card-action">
+              <a class="waves-effect waves-light btn" href="#invitemodal">Open dialogue</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6 l3">
+          <div class="card hoverable">
+            <div class="card-content">
+              <span class="card-title">Role Permissions</span>
+              <p>Manage the permissions of different roles.</p>
+            </div>
+            <div class="card-action">
+              <a class="waves-effect waves-light btn" href="#rolepermsmodal">Open dialogue</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6 l3">
+          <div class="card hoverable">
+            <div class="card-content">
+              <span class="card-title">Send a Message</span>
+              <p>Send the message as the bot to a channel.</p>
+            </div>
+            <div class="card-action">
+              <a class="waves-effect waves-light btn" href="#sendmessagemodal">Open dialogue</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6 l3">
+          <div class="card hoverable">
+            <div class="card-content">
+              <span class="card-title">Unban Yourself</span>
+              <p>They banned you eh? Well let's get right into the unban!</p>
+            </div>
+            <div class="card-action">
+              <a class="waves-effect waves-light btn" href="#unbanmodal">Open dialogue</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+<!-- modals -->
+    <div>
+      <!-- Console Structure -->
+      <div id="consolemodal" class="modal bottom-sheet">
+        <div class="modal-content">
+          <h4>Console</h4>
+          <p>View activity and errors here</p>
+          <pre style="height:300px; border-style: dotted;" id="consolelog"></pre>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close console</a>
+        </div>
+      </div>
+
+      <!-- Invite Dialogue -->
+      <div id="invitemodal" class="modal">
+        <div class="modal-content">
+          <h4>Invites</h4>
+          <p>Here is a list of invites avalible on this guild</p>
+          <span id="invitebtns">
+<!--
+            <a class="waves-effect waves-light btn" href="#">asj4isj</a>
+            <a class="waves-effect waves-light btn" href="#" data-clipboard-text="fucc"><i class="fa fa-clipboard" aria-hidden="true"></i></a><br></br>
+-->
+          </span>
+          <hr>
+          <p>You can also attempt to generate an invite link if the server has no invites :)</p>
+          <a class="waves-effect waves-light btn" href="#" onclick="generateInvite()">Generate Invite</a>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close Dialogue</a>
+        </div>
+      </div>
+
+      <!-- Role Permissions Dialogue-->
+      <div id="rolepermsmodal" class="modal">
+        <div class="modal-content">
+          <h4>Role Permissions</h4>
+          <p>For now, you can only set the @everyone role permissions.</p>
+          <span id="permsbtns">
+            <a class="waves-effect waves-light btn" onclick="allPerms()">Give @everyone all permissions</a>
+            <a class="waves-effect waves-light btn" onclick="noPerms()">Give @everyone no permissions</a><br>
+            <div class="row">
+              <div class="col s12">
+                Enter a custom @everyone permission
+                <div class="input-field inline">
+                  <input id="everyonepermsinput">
+                  <a class="waves-effect waves-light btn" onclick="customPerms()">Set custom permission</a>
+                </div>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close Dialogue</a>
+        </div>
+      </div>
+
+      <!-- Send a Message Dialogue -->
+      <div id="sendmessagemodal" class="modal">
+        <div class="modal-content">
+          <h4>Send a Message</h4>
+          <p>Here is your chance to send a message AS the bot! (to the default, hopefully #general, channel)</p>
+          <div class="row">
+            <form class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <textarea id="botmessage" class="materialize-textarea"></textarea>
+                  <label for="botmessage">Message</label>
+                  <a class="waves-effect waves-light btn" onclick="sendMessage()">Send</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close Dialogue</a>
+        </div>
+      </div>
+
+      <!-- Unban Yourself Dialogue -->
+      <div id="unbanmodal" class="modal">
+        <div class="modal-content">
+          <h4>Unban Yourself</h4>
+          <p>Give yourself another chance in the guild</p>
+          <div class="row">
+            <div class="col s12">
+              Enter your discord id (Enable developer mode &amp; rightclick your name and copy id)
+              <div class="input-field inline">
+                <input id="unbanuserid">
+                <a class="waves-effect waves-light btn" onclick="unbanUser()">Send Unban Request</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close Dialogue</a>
+        </div>
+      </div>
+
+    </div>
+  </body>
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js" integrity="sha256-iaqfO5ue0VbSGcEiQn+OeXxnxAMK2+QgHXIDA5bWtGI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.1/clipboard.min.js" integrity="sha256-El0fEiD3YOM7uIVZztyQzmbbPlgEj0oJVxRWziUh4UE=" crossorigin="anonymous"></script>
+
+<!-- mustache templates -->
+  <script id="mustache_guildcards" type="text/template">
+    <div class="col s12 m6 l3">
+      <div class="card hoverable">
+        <div class="card-content">
+          <span class="card-title">{{guildname}}</span>
+          <span>
+            <i class="fa fa-user" aria-hidden="true"></i> {{membercount}}<br>
+            <i class="fa fa-star" aria-hidden="true"></i> {{permissionsval}}
+          </span>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn" onclick="selectGuild('{{guildid}}')">Select</a>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script id="mustache_invitebtns" type="text/template">
+    <a class="waves-effect waves-light btn" href="https://discord.gg/{{value}}" target="_blank">{{value}}</a>
+    <a class="waves-effect waves-light btn" href="#" data-clipboard-text="discord.gg/{{value}}"><i class="fa fa-clipboard" aria-hidden="true"></i></a><br></br>
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $('.modal').modal();
+      $(".button-collapse").sideNav();
+      new Clipboard('.btn');
+    });
+
+    //replace console.log with the console on the page
+    // (function () {
+    //     var old = console.log;
+    //     var logger = document.getElementById('consolelog');
+    //     console.log = function () {
+    //       for (var i = 0; i < arguments.length; i++) {
+    //         if (typeof arguments[i] == 'object') {
+    //             logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+    //         } else {
+    //             logger.innerHTML += arguments[i] + '<br />';
+    //         }
+    //       }
+    //       logger.innerHTML += '<hr />';
+    //     }
+    // })();
+
+    var bottoken = ""
+    var globalguildid = ""
+
+    //todo: actually make this work
+    function getGuildMemberCount(guildid, after) {
+      var guildCheck = $.ajax({
+        dataType: "json",
+        url: "https://discordapp.com/api/guilds/"+guildid+"/members?limit=1000&after="+after,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+        },
+        error: function() {
+          alert("error on getGuildMemberCount (post) function!")
+        },
+        success: function(data) {
+          return data.length
+          // if (data.length > 0) {
+          //   return data.length + getGuildMemberCount(guildid, data[data.length - 1]['user']['id'])
+          // } else {
+          //   return 0;
+          // }
+        }
+      });
+    }
+
+    function makeGuildCard(guildobj, template) {
+      $.ajax({
+        dataType: "json",
+        url: "https://discordapp.com/api/guilds/"+guildobj['id']+"/members?limit=1000&after="+"0",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+        },
+        error: function() {
+          alert("error on getGuildMemberCount (post) function!")
+        },
+        success: function(data) {
+          var memberCount = data.length
+          var rendered = Mustache.render(template, {guildname: guildobj['name'], membercount: memberCount, permissionsval: guildobj['permissions'], guildid: guildobj['id']});
+          $('#guildcards').append(rendered);
+        }
+      });
+    }
+
+    function setGuilds() {
+      var template = $('#mustache_guildcards').html();
+      Mustache.parse(template);
+      $.ajax({
+        dataType: "json",
+        url: "https://discordapp.com/api/users/@me/guilds",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+        },
+        error: function() {
+          alert("error on setGuilds function!")
+        },
+        success: function (data) {
+          $('#guildcards').text("")
+          for (i = 0; i < data.length; i++) {
+            makeGuildCard(data[i], template)
+          }
+        }
+      });
+    }
+
+    function validateToken(token) {
+      $("#progressbar").show()
+      $.ajax({
+        dataType: "json",
+        url: "https://discordapp.com/api/users/@me",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bot " + token);
+        },
+        error: function() {
+          alert("error on validateToken function!")
+        },
+        success: function (data) {
+          $("#tokeninput").blur();
+          $("#bottoken").text(token)
+          $("#botdiscrim").text(data['discriminator'])
+          $("#botid").text(data['id'])
+          $("#botusername").text(data['username'])
+          bottoken = token
+          setGuilds()
+        },
+        complete: function() {
+          $("#progressbar").hide()
+        }
+      });
+    }
+
+    function initAction_Invites() {
+      var template = $('#mustache_invitebtns').html();
+      Mustache.parse(template);
+      $.ajax({
+        dataType: "json",
+        url: "https://discordapp.com/api/guilds/" + globalguildid + "/invites",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+        },
+        error: function() {
+          alert("error on setGuilds function!")
+        },
+        success: function (data) {
+          $('#invitebtns').text("")
+          for (i = 0; i < data.length; i++) {
+            var rendered = Mustache.render(template, {value: data[i]['code']});
+            $('#invitebtns').append(rendered);
+          }
+        }
+      });
+    }
+
+    function selectGuild(guildid) {
+      globalguildid = guildid;
+      $(".selectedGuild").removeClass("selectedGuild");
+      $("a[onclick*=\"selectGuild('" + globalguildid + "')\"]").addClass("selectedGuild")
+
+      initAction_Invites()
+    }
+
+    function generateInvite() {
+      $.ajax({
+        dataType: "json",
+        type: 'PATCH',
+        url: "https://discordapp.com/api/guilds/" + globalguildid + "/embed",
+        data: JSON.stringify({
+          "enabled": true,
+          "channel_id": globalguildid
+        }),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+            xhr.setRequestHeader ("Content-Type", "application/json");
+        },
+        error: function() {
+          alert("error on generateInvite function!")
+        },
+        success: function(data) {
+          $.ajax({
+            dataType: "json",
+            url: "https://discordapp.com/api/guilds/" + globalguildid + "/widget.json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+            },
+            error: function() {
+              alert("error on generateInvite (inner) function!")
+            },
+            success: function (data) {
+              initAction_Invites()
+            }
+          });
+        }
+      })
+    }
+
+    function allPerms() {
+      $.ajax({
+        dataType: "json",
+        type: "PATCH",
+        url: "https://discordapp.com/api/guilds/" + globalguildid + "/roles/" + globalguildid,
+        data: JSON.stringify({
+          permissions: 2146958463
+        }),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+          xhr.setRequestHeader ("Content-Type", "application/json");
+        },
+        error: function() {
+          alert("error on allPerms function!")
+        },
+        success: function(data) {
+          alert("you have given @everyone ALL the perms!")
+        }
+      })
+    }
+
+    function noPerms() {
+      $.ajax({
+        dataType: "json",
+        type: "PATCH",
+        url: "https://discordapp.com/api/guilds/" + globalguildid + "/roles/" + globalguildid,
+        data: JSON.stringify({
+          permissions: 0
+        }),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+          xhr.setRequestHeader ("Content-Type", "application/json");
+        },
+        error: function() {
+          alert("error on allPerms function!")
+        },
+        success: function(data) {
+          alert("you have given @everyone NONE perms!")
+        }
+      })
+    }
+
+    function customPerms() {
+      alert("to be implemented... sorry :(")
+    }
+
+    function sendMessage() {
+      var text = $("#botmessage").val()
+      $.ajax({
+        dataType: "json",
+        type: "POST",
+        url: "https://discordapp.com/api/channels/" + globalguildid + "/messages",
+        data: JSON.stringify({
+          "content": text
+        }),
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+          xhr.setRequestHeader ("Content-Type", "application/json");
+        },
+        error: function() {
+          alert("error on sendMessage function!")
+        },
+        success: function(data) {
+          alert("message sent!")
+        }
+      })
+    }
+
+    function unbanUser() {
+      var userid = $("#unbanuserid").val()
+      $.ajax({
+        dataType: "json",
+        type: "DELETE",
+        url: "https://discordapp.com/api/guilds/" + globalguildid + "/bans/" + userid,
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ("Authorization", "Bot " + bottoken);
+          xhr.setRequestHeader ("Content-Type", "application/json");
+        },
+        error: function() {
+          alert("error on unbanUser function!")
+        },
+        success: function(data) {
+          alert("unbanned sent!")
+        }
+      })
+    }
+
+    $('#tokeninput').keyup(function(e){
+        if(e.keyCode == 13) {
+            validateToken($('#tokeninput').val())
+        }
+    });
+  </script>
+</html>
